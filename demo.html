@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>图片左右滑动效果</title>
+<style>
+    *{ margin:0px; padding:0px; }
+   .pic{ width:1030px; height:350px; margin:50px auto; overflow:hidden; position:relative;}
+   .pic1{width:7210px; height:350px; position:absolute; top:0px; left:-1030px;}
+   .pic1 img{ float:left;}
+   
+   .pic .bt{ position:absolute; bottom:20px; right:20px;}
+   
+   .pic .bt span{ width:13px; height:13px; display:block; border-radius:50%; background:rgba(255,255,255,0.8); line-height:30px; text-align:center; float:left; margin-right:8px;}
+   .pic .bt span.on{ background:#F00; }
+   
+   .aa{  width:20px; height:50px; background:rgba(102,102,102,0.6);position:absolute; top:50%; margin-top:-25px; line-height:50px; text-align:center; color:#FFF;}
+   .aa:hover{ background:#F00; cursor:pointer;} 
+   .lbt{left:-20px;}
+   .rbt{right:-20px;}
+
+</style>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script>
+  var i=0;
+  $(function(){
+    $(".bt span").mouseover(function(){
+      var n=$(this).index();  //index获取span下标
+      i=n;
+      ch(n);
+    });
+    $(".pic").mouseover(function(){
+      bb(0);
+      clearInterval(timer);
+    });
+     $(".pic").mouseleave(function(){
+      bb(-20);
+      timer=setInterval(aa,3000);
+    });
+     var timer=setInterval(aa,3000);
+    
+     $(".rbt").click(function(){
+      aa();
+     });
+      $(".lbt").click(function(){
+        i--;
+      if(i<-1){$(".pic1").css({"left":"-5150px"}); 
+      i=$(".bt span").length-2}
+      ch(i)
+     });
+  });
+  function ch(n){
+    var a=(n+1)*-1030+"px";
+    $(".bt span").removeClass("on").eq(n).addClass("on");
+    $(".pic1").stop().animate({"left":a},500);
+  };
+  function bb(n){
+    $(".lbt").stop().animate({"left":n},300);
+     $(".rbt").stop().animate({"right":n},300);
+  };
+   function aa(){
+      i++;
+      if(i== $(".bt span").length){$(".pic1").css({"left":"0px"});  i=0;}
+     
+      ch(i);
+    }
+    
+</script>
+</head>
+
+<body>
+    <div class="pic">
+         <div class="pic1">
+               <img src="img/4.jpg" /> 
+               <img src="img/0.jpg" />
+               <img src="img/1.jpg" />               
+               <img src="img/2.jpg" />   
+               <img src="img/3.jpg" />               
+               <img src="img/4.jpg" /> 
+         </div>
+         
+         <!-- 左右按钮  -->
+         <div class="lbt aa"><<</div>
+         <div class="rbt aa">>></div>
+         
+        <!-- 鼠标经过的按钮 -->
+         <div class="bt">
+             <span class="on"></span>
+             <span></span>    
+             <span></span>         
+             <span></span>
+             <span></span>
+         </div>
+         
+    </div>
+
+
+
+</body>
+</html>
